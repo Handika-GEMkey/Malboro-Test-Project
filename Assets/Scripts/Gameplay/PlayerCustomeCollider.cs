@@ -17,10 +17,12 @@ public class PlayerCustomeCollider : MonoBehaviour
         Debug.DrawRay(this.transform.position, direction * MaxDistance, Color.green);
         if (Physics.Raycast(this.transform.position, direction, out hit, MaxDistance, LayerMask))
         {
+            Debug.Log(hit.transform.tag);
             if (hit.transform.CompareTag("Objective"))
             {
                 hit.transform.gameObject.SetActive(false);
-                ManagerRacing.Instance.TotalScore += 100;
+                ManagerRacing.Instance.TotalScore += 10;
+                ManagerRacing.Instance.TokenScore += 1;
                 AudioHandler.PlaySFXCollecting();
             }
             else if (hit.transform.CompareTag("Obstacle"))
@@ -29,6 +31,12 @@ public class PlayerCustomeCollider : MonoBehaviour
                 CarAnimator.Play("Damaged", 0, 0);
                 ManagerRacing.Instance.TotalLife -= 1;
                 AudioHandler.PlaySFXCollision();
+            }
+            else if (hit.transform.CompareTag("Fuel"))
+            {
+                hit.transform.gameObject.SetActive(false);
+                ManagerRacing.Instance.AddingTime(10);
+                AudioHandler.PlaySFXCollecting();
             }
         }
     }

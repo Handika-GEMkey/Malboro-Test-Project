@@ -12,6 +12,7 @@ TagManager:
   - rank_3
   - top_rank_handler
   - generic_rank_handler
+  - Fuel
   layers:
   - Default
   - TransparentFX

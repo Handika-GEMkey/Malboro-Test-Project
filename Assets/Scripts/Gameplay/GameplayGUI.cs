@@ -13,6 +13,7 @@ public class GameplayGUI : MonoBehaviour {
 
 	public Text ScoreText;
 	public Text TimerText;
+    public Text TokenText;
 
 	public Image Life1Image;
 	public Image Life2Image;
@@ -28,28 +29,43 @@ public class GameplayGUI : MonoBehaviour {
 
 	public AudioHandler audioHandler;
 
-	[Header("In-Game Result")]
-	public GameObject GameOverUI;
+	[Header("Game Finish Result")]
+	public GameObject GameFinishUI;
 	public Text NameText;
 	public Text FinalScoreText;
 	public Text CoinText;
 
-	public RetreavingData RetreavingData;
+    [Header("Game Over Result")]
+    public GameObject GameOverUI;
+    public Text NameGOText;
+    public Text FinalScoreGOText;
+    public Text CoinGOText;
+
+    public RetreavingData RetreavingData;
 
 	void Start()
 	{
 		managerRacing.CallbackGameOver += OnGameOver;
-		managerRacing.CallBackGameTimer += OnGameTimer;
+        managerRacing.CallbackGameFinish += OnGameFinish;
+        managerRacing.CallbackTokenScore += OnPlayerToken;
+        managerRacing.CallBackGameTimer += OnGameTimer;
 		managerRacing.CallbackPlayerLife += OnPlayerLife;
 		managerRacing.CallbackPlayerScore += OnPlayerScore;
-	}
+        StartGameplay();
+
+    }
 
 	public void InitScore(float Point)
 	{
 		ScoreText.text = String.Format("{0:n0}", Point);
 	}
 
-	public void InitTimer(int time)
+    public void InitToken(float Point)
+    {
+        TokenText.text = String.Format("{0:n0}", Point);
+    }
+
+    public void InitTimer(int time)
 	{
 		TimeSpan ts = TimeSpan.FromSeconds(time);
 		TimerText.text = ts.ToString();
@@ -63,23 +79,59 @@ public class GameplayGUI : MonoBehaviour {
 				Life1Image.sprite = LifeNullSprite;
 				Life2Image.sprite = LifeNullSprite;
 				Life3Image.sprite = LifeNullSprite;
-				break;
+                Life1Image.fillAmount = 1f;
+                Life2Image.fillAmount = 1f;
+                Life3Image.fillAmount = 1f;
+                break;
 			case 1:
 				Life1Image.sprite = LifeFillSprite;
 				Life2Image.sprite = LifeNullSprite;
 				Life3Image.sprite = LifeNullSprite;
-				break;
+                Life1Image.fillAmount = 0.5f;
+                Life2Image.fillAmount = 1f;
+                Life3Image.fillAmount = 1f;
+                break;
 			case 2:
 				Life1Image.sprite = LifeFillSprite;
-				Life2Image.sprite = LifeFillSprite;
+				Life2Image.sprite = LifeNullSprite;
 				Life3Image.sprite = LifeNullSprite;
-				break;
+                Life1Image.fillAmount = 1f;
+                Life2Image.fillAmount = 1f;
+                Life3Image.fillAmount = 1f;
+                break;
 			case 3:
 				Life1Image.sprite = LifeFillSprite;
 				Life2Image.sprite = LifeFillSprite;
-				Life3Image.sprite = LifeFillSprite;
-				break;
-		}
+                Life3Image.sprite = LifeNullSprite;
+                Life1Image.fillAmount = 1f;
+                Life2Image.fillAmount = 0.5f;
+                Life3Image.fillAmount = 1f;
+                break;
+            case 4:
+                Life1Image.sprite = LifeFillSprite;
+                Life2Image.sprite = LifeFillSprite;
+                Life3Image.sprite = LifeNullSprite;
+                Life1Image.fillAmount = 1f;
+                Life2Image.fillAmount = 1f;
+                Life3Image.fillAmount = 1f;
+                break;
+            case 5:
+                Life1Image.sprite = LifeFillSprite;
+                Life2Image.sprite = LifeFillSprite;
+                Life3Image.sprite = LifeFillSprite;
+                Life1Image.fillAmount = 1f;
+                Life2Image.fillAmount = 1f;
+                Life3Image.fillAmount = 0.5f;
+                break;
+            case 6:
+                Life1Image.sprite = LifeFillSprite;
+                Life2Image.sprite = LifeFillSprite;
+                Life3Image.sprite = LifeFillSprite;
+                Life1Image.fillAmount = 1f;
+                Life2Image.fillAmount = 1f;
+                Life3Image.fillAmount = 1f;
+                break;
+        }
 	}
 
 	public void StartGameplay()
@@ -114,7 +166,7 @@ public class GameplayGUI : MonoBehaviour {
 
 	void OnGameOver(float totalScore)
 	{
-		StartCoroutine(SkipTimer(2f, totalScore));
+		StartCoroutine(SkipTimer_GameOver(2f, totalScore));
 		/*Debug.Log("Game Over Indicated");
 		if (ManagerApplication.Instance && ManagerPlayer.Instance)
 		{
@@ -128,26 +180,52 @@ public class GameplayGUI : MonoBehaviour {
 		}*/
 	}
 
-	IEnumerator SkipTimer(float timer, float totalScore)
+    void OnGameFinish(float totalScore)
+    {
+        StartCoroutine(SkipTimer_GameFinish(2f, totalScore));
+    }
+
+
+    IEnumerator SkipTimer_GameFinish(float timer, float totalScore)
 	{
 		managerRacing.RacingSpeed = 0;
 		managerRacing.GameStarted = false;
 		audioHandler.StopCarSound();
 		GameplayGUIGameObject.SetActive(false);
-		GameOverUI.SetActive(true);
-		NameText.text = RetreavingData.NAME;
+		GameFinishUI.SetActive(true);
+		//NameText.text = RetreavingData.NAME;
 		FinalScoreText.text = String.Format("{0:n0}", totalScore);
 		yield return new WaitForSeconds(timer);
-		RetreavingData.SCORE = (int) totalScore;
-		RetreavingData.SendData();
+		//RetreavingData.SCORE = (int) totalScore;
+		///RetreavingData.SendData();
 	}
 
-	void OnGameTimer(int gameTimer)
+
+    IEnumerator SkipTimer_GameOver(float timer, float totalScore)
+    {
+        managerRacing.RacingSpeed = 0;
+        managerRacing.GameStarted = false;
+        audioHandler.StopCarSound();
+        GameplayGUIGameObject.SetActive(false);
+        GameOverUI.SetActive(true);
+        //NameText.text = RetreavingData.NAME;
+        FinalScoreGOText.text = String.Format("{0:n0}", totalScore);
+        yield return new WaitForSeconds(timer);
+        //RetreavingData.SCORE = (int) totalScore;
+        ///RetreavingData.SendData();
+    }
+
+    void OnGameTimer(int gameTimer)
 	{
 		InitTimer(gameTimer);
 	}
 
-	void OnPlayerLife(int life)
+    void OnPlayerToken(float tokenScore)
+    {
+        InitToken(tokenScore);
+    }
+
+    void OnPlayerLife(int life)
 	{
 		InitLife(life);
 	}
@@ -156,4 +234,9 @@ public class GameplayGUI : MonoBehaviour {
 	{
 		InitScore(score);
 	}
+
+    public void OnGameRestart()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
 }

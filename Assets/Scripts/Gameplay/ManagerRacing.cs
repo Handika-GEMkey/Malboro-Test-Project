@@ -16,9 +16,11 @@ public class ManagerRacing : MonoBehaviour {
 	[Range(0.2f, 5f)]
 	[SerializeField] private float racingSpeed;
 
-	[SerializeField] private float totalScore;
+    [SerializeField] private float totalScore;
 
-	[SerializeField] private int totalLife;
+    [SerializeField] private float tokenScore;
+
+    [SerializeField] private int totalLife;
 
 	[SerializeField] private int gameTimer;
 
@@ -40,7 +42,21 @@ public class ManagerRacing : MonoBehaviour {
 		}
 	}
 
-	private event Action<int> callBackGameTimer;
+    private event Action<float> callbackGameFinish;
+    public event Action<float> CallbackGameFinish
+    {
+        add
+        {
+            this.callbackGameFinish -= value;
+            this.callbackGameFinish += value;
+        }
+        remove
+        {
+            this.callbackGameFinish -= value;
+        }
+    }
+
+    private event Action<int> callBackGameTimer;
 	public event Action<int> CallBackGameTimer
 	{
 		add
@@ -82,7 +98,21 @@ public class ManagerRacing : MonoBehaviour {
 		}
 	}
 
-	public float TotalScore
+    private event Action<float> callbackTokenScore;
+    public event Action<float> CallbackTokenScore
+    {
+        add
+        {
+            this.callbackTokenScore -= value;
+            this.callbackTokenScore += value;
+        }
+        remove
+        {
+            this.callbackTokenScore -= value;
+        }
+    }
+
+    public float TotalScore
 	{
 		get
 		{
@@ -92,14 +122,35 @@ public class ManagerRacing : MonoBehaviour {
 		{
 			totalScore = value;
 			if (callbackPlayerScore != null) { callbackPlayerScore.Invoke(totalScore); }
-			if (totalScore % 200 == 0 && racingSpeed < 2.5f)
+			if (totalScore % 20 == 0 && racingSpeed < 2.5f)
 			{
-				racingSpeed += 0.02f;
+				racingSpeed += 0.05f;
 			}
 		}
 	}
 
-	public int TotalLife
+    public float TokenScore
+    {
+        get
+        {
+            return tokenScore;
+        }
+        set
+        {
+            tokenScore = value;
+            if (tokenScore >= 50f)
+            {
+                if (callbackGameFinish != null) callbackGameFinish.Invoke(totalScore);
+            }
+            else if (tokenScore < 50f)
+            {
+                if (callbackTokenScore != null) { callbackTokenScore.Invoke(tokenScore); }
+            }
+
+        }
+    }
+
+    public int TotalLife
 	{
 		get
 		{
@@ -142,6 +193,7 @@ public class ManagerRacing : MonoBehaviour {
 	public void StartGame()
 	{
 		GameStarted = true;
+        gameTimer = 60;
 		ObjectiveGenerator.BatchGenerator();
 		StartCoroutine(TimerCoroutine());
 	}
@@ -150,12 +202,23 @@ public class ManagerRacing : MonoBehaviour {
 	{
 		while (GameStarted)
 		{
-			yield return new WaitForSeconds(1);
-			gameTimer += 1;
+			yield return new WaitForSeconds(1f);
+			gameTimer -= 1;
 			if (callBackGameTimer != null)
 			{
 				callBackGameTimer.Invoke(gameTimer);
 			}
 		}
 	}
+    /// <summary>
+    /// Add Time from fuel
+    /// </summary>
+    public void AddingTime(int v)
+    {
+        gameTimer += v;
+        if (callBackGameTimer != null)
+        {
+            callBackGameTimer.Invoke(gameTimer);
+        }
+    }
 }
