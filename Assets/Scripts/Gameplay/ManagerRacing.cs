@@ -216,6 +216,7 @@ public class ManagerRacing : MonoBehaviour {
     public void AddingTime(int v)
     {
         gameTimer += v;
+        if (gameTimer > 60) { gameTimer = 60; }
         if (callBackGameTimer != null)
         {
             callBackGameTimer.Invoke(gameTimer);

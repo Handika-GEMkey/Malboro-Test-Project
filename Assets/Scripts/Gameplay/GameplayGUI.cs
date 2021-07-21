@@ -29,7 +29,12 @@ public class GameplayGUI : MonoBehaviour {
 
 	public AudioHandler audioHandler;
 
-	[Header("Game Finish Result")]
+    [Header("Game Timer Result")]
+    public Image TimerBarOutline;
+
+
+
+    [Header("Game Finish Result")]
 	public GameObject GameFinishUI;
 	public Text NameText;
 	public Text FinalScoreText;
@@ -67,9 +72,14 @@ public class GameplayGUI : MonoBehaviour {
 
     public void InitTimer(int time)
 	{
+        float timeBarCount=0f;
 		TimeSpan ts = TimeSpan.FromSeconds(time);
 		TimerText.text = ts.ToString();
-	}
+        timeBarCount = (float)(((float)time/60f));
+        Debug.Log(timeBarCount.ToString());
+        TimerBarOutline.fillAmount = timeBarCount;
+
+    }
 
 	public void InitLife(int life)
 	{
