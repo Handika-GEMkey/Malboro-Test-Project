@@ -44,7 +44,7 @@ public class RetreavingData : MonoBehaviour {
     public void GetData()
     {
 #if UNITY_WEBGL
-        RecheiveData(this.gameObject.name, "GetId", "GetName", "GetScore");
+     //   RecheiveData(this.gameObject.name, "GetId", "GetName", "GetScore");
 #endif
     }
 
@@ -56,7 +56,7 @@ public class RetreavingData : MonoBehaviour {
     public void SendData()
     {
 #if UNITY_WEBGL
-        SendData(ID, NAME, SCORE);
+   //     SendData(ID, NAME, SCORE);
 #endif
     }
 }
