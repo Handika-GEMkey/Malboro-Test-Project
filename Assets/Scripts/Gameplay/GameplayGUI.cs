@@ -14,12 +14,17 @@ public class GameplayGUI : MonoBehaviour {
 	public Text ScoreText;
 	public Text TimerText;
     public Text TokenText;
+    public Text LivesText;
 
 	public Image Life1Image;
 	public Image Life2Image;
 	public Image Life3Image;
+    public Image Life1ImageBg;
+    public Image Life2ImageBg;
+    public Image Life3ImageBg;
 
-	public Sprite LifeFillSprite;
+
+    public Sprite LifeFillSprite;
 	public Sprite LifeNullSprite;
 
 	public GameObject GameStartedUp;
@@ -56,7 +61,7 @@ public class GameplayGUI : MonoBehaviour {
         managerRacing.CallBackGameTimer += OnGameTimer;
 		managerRacing.CallbackPlayerLife += OnPlayerLife;
 		managerRacing.CallbackPlayerScore += OnPlayerScore;
-        StartGameplay();
+        //StartGameplay();
 
     }
 
@@ -76,7 +81,7 @@ public class GameplayGUI : MonoBehaviour {
 		TimeSpan ts = TimeSpan.FromSeconds(time);
 		TimerText.text = ts.ToString();
         timeBarCount = (float)(((float)time/60f));
-        Debug.Log(timeBarCount.ToString());
+        //Debug.Log(timeBarCount.ToString());
         TimerBarOutline.fillAmount = timeBarCount;
 
     }
@@ -86,60 +91,107 @@ public class GameplayGUI : MonoBehaviour {
 		switch (life)
 		{
 			case 0:
-				Life1Image.sprite = LifeNullSprite;
-				Life2Image.sprite = LifeNullSprite;
-				Life3Image.sprite = LifeNullSprite;
+				//Life1Image.sprite = LifeNullSprite;
+				//Life2Image.sprite = LifeNullSprite;
+				//Life3Image.sprite = LifeNullSprite;
                 Life1Image.fillAmount = 1f;
                 Life2Image.fillAmount = 1f;
                 Life3Image.fillAmount = 1f;
+                Life1Image.gameObject.SetActive(false);
+                Life2Image.gameObject.SetActive(false);
+                Life3Image.gameObject.SetActive(false);
+                Life1ImageBg.gameObject.SetActive(true);
+                Life2ImageBg.gameObject.SetActive(true);
+                Life3ImageBg.gameObject.SetActive(true);
+                LivesText.text = "0";
                 break;
 			case 1:
-				Life1Image.sprite = LifeFillSprite;
-				Life2Image.sprite = LifeNullSprite;
-				Life3Image.sprite = LifeNullSprite;
+				//Life1Image.sprite = LifeFillSprite;
+				//Life2Image.sprite = LifeNullSprite;
+				//Life3Image.sprite = LifeNullSprite;
                 Life1Image.fillAmount = 0.5f;
                 Life2Image.fillAmount = 1f;
                 Life3Image.fillAmount = 1f;
+                Life1Image.gameObject.SetActive(true);
+                Life2Image.gameObject.SetActive(false);
+                Life3Image.gameObject.SetActive(false);
+                Life1ImageBg.gameObject.SetActive(true);
+                Life2ImageBg.gameObject.SetActive(true);
+                Life3ImageBg.gameObject.SetActive(true);
+                
                 break;
 			case 2:
-				Life1Image.sprite = LifeFillSprite;
-				Life2Image.sprite = LifeNullSprite;
-				Life3Image.sprite = LifeNullSprite;
+				//Life1Image.sprite = LifeFillSprite;
+				//Life2Image.sprite = LifeNullSprite;
+				//Life3Image.sprite = LifeNullSprite;
                 Life1Image.fillAmount = 1f;
                 Life2Image.fillAmount = 1f;
                 Life3Image.fillAmount = 1f;
+                Life1Image.gameObject.SetActive(true);
+                Life2Image.gameObject.SetActive(false);
+                Life3Image.gameObject.SetActive(false);
+                Life1ImageBg.gameObject.SetActive(false);
+                Life2ImageBg.gameObject.SetActive(true);
+                Life3ImageBg.gameObject.SetActive(true);
+                LivesText.text = "1";
                 break;
 			case 3:
-				Life1Image.sprite = LifeFillSprite;
-				Life2Image.sprite = LifeFillSprite;
-                Life3Image.sprite = LifeNullSprite;
+				//Life1Image.sprite = LifeFillSprite;
+				//Life2Image.sprite = LifeFillSprite;
+                //Life3Image.sprite = LifeNullSprite;
                 Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 0.5f;
+                Life2Image.fillAmount = 0.688f;
                 Life3Image.fillAmount = 1f;
+                Life1Image.gameObject.SetActive(true);
+                Life2Image.gameObject.SetActive(true);
+                Life3Image.gameObject.SetActive(false);
+                Life1ImageBg.gameObject.SetActive(false);
+                Life2ImageBg.gameObject.SetActive(true);
+                Life3ImageBg.gameObject.SetActive(true);
                 break;
             case 4:
-                Life1Image.sprite = LifeFillSprite;
-                Life2Image.sprite = LifeFillSprite;
-                Life3Image.sprite = LifeNullSprite;
+                //Life1Image.sprite = LifeFillSprite;
+                //Life2Image.sprite = LifeFillSprite;
+                //Life3Image.sprite = LifeNullSprite;
                 Life1Image.fillAmount = 1f;
                 Life2Image.fillAmount = 1f;
                 Life3Image.fillAmount = 1f;
+                Life1Image.gameObject.SetActive(true);
+                Life2Image.gameObject.SetActive(true);
+                Life3Image.gameObject.SetActive(false);
+                Life1ImageBg.gameObject.SetActive(false);
+                Life2ImageBg.gameObject.SetActive(false);
+                Life3ImageBg.gameObject.SetActive(true);
+                LivesText.text = "2";
                 break;
             case 5:
-                Life1Image.sprite = LifeFillSprite;
-                Life2Image.sprite = LifeFillSprite;
-                Life3Image.sprite = LifeFillSprite;
+                //Life1Image.sprite = LifeFillSprite;
+                //Life2Image.sprite = LifeFillSprite;
+                //Life3Image.sprite = LifeFillSprite;
                 Life1Image.fillAmount = 1f;
                 Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 0.5f;
+                Life3Image.fillAmount = 0.36f;
+                Life1Image.gameObject.SetActive(true);
+                Life2Image.gameObject.SetActive(true);
+                Life3Image.gameObject.SetActive(true);
+                Life1ImageBg.gameObject.SetActive(false);
+                Life2ImageBg.gameObject.SetActive(false);
+                Life3ImageBg.gameObject.SetActive(true);
                 break;
             case 6:
-                Life1Image.sprite = LifeFillSprite;
-                Life2Image.sprite = LifeFillSprite;
-                Life3Image.sprite = LifeFillSprite;
+                //Life1Image.sprite = LifeFillSprite;
+                //Life2Image.sprite = LifeFillSprite;
+                //Life3Image.sprite = LifeFillSprite;
                 Life1Image.fillAmount = 1f;
                 Life2Image.fillAmount = 1f;
                 Life3Image.fillAmount = 1f;
+                Life1Image.gameObject.SetActive(true);
+                Life2Image.gameObject.SetActive(true);
+                Life3Image.gameObject.SetActive(true);
+                Life1ImageBg.gameObject.SetActive(false);
+                Life2ImageBg.gameObject.SetActive(false);
+                Life3ImageBg.gameObject.SetActive(false);
+                LivesText.text = "3";
                 break;
         }
 	}
@@ -168,10 +220,11 @@ public class GameplayGUI : MonoBehaviour {
 		CountDownText.fontSize = 195;
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(false);
+        Debug.Log("starting");
 		ManagerRacing.Instance.StartGame();
 		GameplayGUIGameObject.SetActive(true);
 		audioHandler.PlayCarSound();
-		RetreavingData.GetData();
+		//RetreavingData.GetData();
 	}
 
 	void OnGameOver(float totalScore)

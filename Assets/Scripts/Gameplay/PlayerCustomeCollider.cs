@@ -17,7 +17,7 @@ public class PlayerCustomeCollider : MonoBehaviour
         Debug.DrawRay(this.transform.position, direction * MaxDistance, Color.green);
         if (Physics.Raycast(this.transform.position, direction, out hit, MaxDistance, LayerMask))
         {
-            Debug.Log(hit.transform.tag);
+           // Debug.Log(hit.transform.tag);
             if (hit.transform.CompareTag("Objective"))
             {
                 hit.transform.gameObject.SetActive(false);

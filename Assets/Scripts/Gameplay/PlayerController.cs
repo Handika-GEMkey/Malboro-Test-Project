@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 
     void Start()
     {
-        movementPositions = ManagerRacing.Instance.GetLinePositions();
+       // movementPositions = movementPositions;
         this.transform.position = movementPositions[indexPosition];
     }
 

@@ -8,6 +8,12 @@ using UnityEngine.SocialPlatforms;
 public class ObjectiveController : MonoBehaviour {
 
 	private Vector3 initPosition;
+    public float PosX_Left;
+    public float PosX_Right;
+    public float PosX_Mid;
+    public Material ObsMatLeft;
+    public Material ObsMatRight;
+    public Material ObsMatMid;
 
 	public ObjectiveGenerator objectiveGenerator;
 	public GameObject[] incomingObjects;
@@ -41,12 +47,32 @@ public class ObjectiveController : MonoBehaviour {
 		for (var x = 0; x < incomingObjects.Length; x++)
 		{
 			int randPos = UnityEngine.Random.Range(0, linePositions.Length);
+          //  if(incomingObjects[x].tag =="Obstacle")
 			incomingObjects[x].transform.localPosition =
-				new Vector3(linePositions[randPos].x,
-							incomingObjects[x].transform.localPosition.y,
-							shufflePosition[x]);
+            //new Vector3(incomingObjects[x].transform.localPosition.x,
+            //            incomingObjects[x].transform.localPosition.y,
+            //            shufflePosition[x]);
+            new Vector3(linePositions[randPos].x,
+                        incomingObjects[x].transform.localPosition.y,
+                        shufflePosition[x]);
 
-			if (!incomingObjects[x].activeInHierarchy) incomingObjects[x].SetActive(true);
+            if (incomingObjects[x].tag == "Obstacle")
+            {
+                if (incomingObjects[x].transform.localPosition.x == PosX_Left)
+                {
+                    incomingObjects[x].GetComponent<MeshRenderer>().material = ObsMatLeft;
+                }
+                else if (incomingObjects[x].transform.localPosition.x == PosX_Right)
+                {
+                    incomingObjects[x].GetComponent<MeshRenderer>().material = ObsMatRight;
+                }
+                else if (incomingObjects[x].transform.localPosition.x == PosX_Mid)
+                {
+                    incomingObjects[x].GetComponent<MeshRenderer>().material = ObsMatMid;
+                }
+            }
+
+            if (!incomingObjects[x].activeInHierarchy)incomingObjects[x].SetActive(true);
 		}
 	}
 
