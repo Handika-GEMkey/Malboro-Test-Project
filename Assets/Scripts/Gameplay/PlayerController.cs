@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     public float touchSensitivity;
 
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour {
 
     void Start()
     {
-       // movementPositions = movementPositions;
+        // movementPositions = movementPositions;
         this.transform.position = movementPositions[indexPosition];
     }
 
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (ManagerRacing.Instance.GameStarted)
         {
-            if (Input.GetMouseButton(0))
+            if ((Input.GetMouseButton(0)))
             {
                 if (!oneTimeMove)
                 {
@@ -77,6 +78,31 @@ public class PlayerController : MonoBehaviour {
                 oneTimeMove = false;
             }
 
+
+            if ((Input.GetKeyDown(KeyCode.A))|| (Input.GetKeyDown("left")))
+            {
+                if (indexPosition > 0)
+                {
+                    indexPosition -= 1;
+                    targetPos = movementPositions[indexPosition];
+                    onTheMove = true;
+                    Debug.Log("Kiri:" + indexPosition.ToString());
+                }
+            }
+
+            if ((Input.GetKeyDown(KeyCode.D))|| (Input.GetKeyDown("right")))
+            {
+                Debug.Log("Kanan:" + indexPosition.ToString());
+                if (indexPosition < 2)
+                {
+                    indexPosition += 1;
+                    targetPos = movementPositions[indexPosition];
+                    onTheMove = true;
+                    Debug.Log("Kanan:" + indexPosition.ToString());
+                }
+            }
+
+           // Debug.Log(targetPos.ToString() + ":" + indexPosition.ToString());
             OnPlayerMove(targetPos, indexPosition);
         }
     }

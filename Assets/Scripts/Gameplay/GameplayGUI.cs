@@ -36,7 +36,8 @@ public class GameplayGUI : MonoBehaviour {
 
     [Header("Game Timer Result")]
     public Image TimerBarOutline;
-
+    public GameObject TimeBarMark;
+    private float TimeBarMarkPos;
 
 
     [Header("Game Finish Result")]
@@ -81,9 +82,12 @@ public class GameplayGUI : MonoBehaviour {
 		TimeSpan ts = TimeSpan.FromSeconds(time);
 		TimerText.text = ts.ToString();
         timeBarCount = (float)(((float)time/60f));
-        //Debug.Log(timeBarCount.ToString());
+       
         TimerBarOutline.fillAmount = timeBarCount;
-
+        TimeBarMarkPos = 455f - (891f *(1- timeBarCount));
+        Debug.Log(1-timeBarCount);
+        Debug.Log(891f * timeBarCount);
+        TimeBarMark.transform.localPosition = new Vector3(TimeBarMarkPos, TimeBarMark.transform.localPosition.y, TimeBarMark.transform.localPosition.z);
     }
 
 	public void InitLife(int life)
@@ -208,7 +212,8 @@ public class GameplayGUI : MonoBehaviour {
 		CountDownGameObject.SetActive(true);
 		audioHandler.PlaySFXCounter();
 		CountDownText.text = "3";
-		yield return new WaitForSeconds(1);
+        CountDownText.fontSize = 240;
+        yield return new WaitForSeconds(1);
 		audioHandler.PlaySFXCounter();
 		CountDownText.text = "2";
 		yield return new WaitForSeconds(1);
@@ -216,8 +221,8 @@ public class GameplayGUI : MonoBehaviour {
 		CountDownText.text = "1";
 		yield return new WaitForSeconds(1);
 		audioHandler.PlaySFXCounterFinal();
-		CountDownText.text = "GO";
-		CountDownText.fontSize = 195;
+		CountDownText.text = "GO!";
+		CountDownText.fontSize = 160;
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(false);
         Debug.Log("starting");
@@ -257,7 +262,7 @@ public class GameplayGUI : MonoBehaviour {
 		GameplayGUIGameObject.SetActive(false);
 		GameFinishUI.SetActive(true);
 		//NameText.text = RetreavingData.NAME;
-		FinalScoreText.text = String.Format("{0:n0}", totalScore);
+		//FinalScoreText.text = String.Format("{0:n0}", totalScore);
 		yield return new WaitForSeconds(timer);
 		//RetreavingData.SCORE = (int) totalScore;
 		///RetreavingData.SendData();
@@ -272,7 +277,7 @@ public class GameplayGUI : MonoBehaviour {
         GameplayGUIGameObject.SetActive(false);
         GameOverUI.SetActive(true);
         //NameText.text = RetreavingData.NAME;
-        FinalScoreGOText.text = String.Format("{0:n0}", totalScore);
+        // FinalScoreGOText.text = String.Format("{0:n0}", totalScore);
         yield return new WaitForSeconds(timer);
         //RetreavingData.SCORE = (int) totalScore;
         ///RetreavingData.SendData();

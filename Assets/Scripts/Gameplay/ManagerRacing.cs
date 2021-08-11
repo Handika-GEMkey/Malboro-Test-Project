@@ -122,7 +122,7 @@ public class ManagerRacing : MonoBehaviour {
 		{
 			totalScore = value;
 			if (callbackPlayerScore != null) { callbackPlayerScore.Invoke(totalScore); }
-			if (totalScore % 20 == 0 && racingSpeed < 2.5f)
+			if (totalScore % 40 == 0 && racingSpeed < 2.5f)
 			{
 				racingSpeed += 0.05f;
 			}

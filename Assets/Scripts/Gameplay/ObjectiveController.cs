@@ -47,11 +47,7 @@ public class ObjectiveController : MonoBehaviour {
 		for (var x = 0; x < incomingObjects.Length; x++)
 		{
 			int randPos = UnityEngine.Random.Range(0, linePositions.Length);
-          //  if(incomingObjects[x].tag =="Obstacle")
 			incomingObjects[x].transform.localPosition =
-            //new Vector3(incomingObjects[x].transform.localPosition.x,
-            //            incomingObjects[x].transform.localPosition.y,
-            //            shufflePosition[x]);
             new Vector3(linePositions[randPos].x,
                         incomingObjects[x].transform.localPosition.y,
                         shufflePosition[x]);
