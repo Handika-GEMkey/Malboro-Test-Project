@@ -53,8 +53,9 @@ public class GameplayGUI : MonoBehaviour {
     public Text CoinGOText;
 
     public RetreavingData RetreavingData;
+    public WebGLBridger WebGLBridger;
 
-	void Start()
+    void Start()
 	{
 		managerRacing.CallbackGameOver += OnGameOver;
         managerRacing.CallbackGameFinish += OnGameFinish;
