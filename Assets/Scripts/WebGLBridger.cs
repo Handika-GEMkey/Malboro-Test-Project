@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -14,11 +15,8 @@ public class WebGLBridger : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void OnPlay();
 
-    [DllImport("__Internal")]
-    private static extern int OnGetPoint();
-
-    [DllImport("__Internal")]
-    private static extern int OnGetCar();
+    public int CarCode;
+    public int PointStatus;
 
     public void SubmitScore(int score)
     {
@@ -41,13 +39,13 @@ public class WebGLBridger : MonoBehaviour
 #endif
     }
 
-    public int GetPoint()
+    public void SetPoint(int point)
     {
-        return OnGetPoint();
+        PointStatus = point;
     }
 
-    public int GetCar()
+    public void SetCar(int carCode)
     {
-        return OnGetCar();
+        CarCode = carCode;
     }
 }

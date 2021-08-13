@@ -10,12 +10,4 @@ mergeInto(LibraryManager.library, {
 	OnPlay: function () {
 		play();
 	},
-
-	OnGetPoint: function () {
-		return getPoint();
-	},
-
-	OnGetCar: function () {
-		return getCar();
-	},
 });

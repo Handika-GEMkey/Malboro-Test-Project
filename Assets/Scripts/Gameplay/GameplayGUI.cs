@@ -86,8 +86,8 @@ public class GameplayGUI : MonoBehaviour {
        
         TimerBarOutline.fillAmount = timeBarCount;
         TimeBarMarkPos = 455f - (891f *(1- timeBarCount));
-        Debug.Log(1-timeBarCount);
-        Debug.Log(891f * timeBarCount);
+        //Debug.Log(1-timeBarCount);
+        //Debug.Log(891f * timeBarCount);
         TimeBarMark.transform.localPosition = new Vector3(TimeBarMarkPos, TimeBarMark.transform.localPosition.y, TimeBarMark.transform.localPosition.z);
     }
 
@@ -204,7 +204,9 @@ public class GameplayGUI : MonoBehaviour {
 	public void StartGameplay()
 	{
 		StartCoroutine(CountDownCoroutine());
-	}
+        WebGLBridger.Play();
+
+    }
 
 	public IEnumerator CountDownCoroutine()
 	{
@@ -226,7 +228,7 @@ public class GameplayGUI : MonoBehaviour {
 		CountDownText.fontSize = 160;
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(false);
-        Debug.Log("starting");
+        //Debug.Log("starting");
 		ManagerRacing.Instance.StartGame();
 		GameplayGUIGameObject.SetActive(true);
 		audioHandler.PlayCarSound();

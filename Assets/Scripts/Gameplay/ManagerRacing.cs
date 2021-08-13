@@ -8,23 +8,28 @@ public class ManagerRacing : MonoBehaviour {
 
 	public static ManagerRacing Instance;
 
+	[SerializeField]
+	private WebGLBridger WebBridger;
 	public bool GameStarted;
 	public ObjectiveGenerator ObjectiveGenerator;
+
+	public int CarCode;
+	public bool IsPopupPointOpen;
 
 	[SerializeField] private Vector3[] linePositions;
 
 	[Range(0.2f, 5f)]
 	[SerializeField] private float racingSpeed;
 
-    [SerializeField] private float totalScore;
+	[SerializeField] private float totalScore;
 
-    [SerializeField] private float tokenScore;
+	[SerializeField] private float tokenScore;
 
-    [SerializeField] private int totalLife;
+	[SerializeField] private int totalLife;
 
 	[SerializeField] private int gameTimer;
 
-	[SerializeField] 
+	[SerializeField]
 	[Range(10f, 20f)]
 	private int obsDistance;
 
@@ -42,21 +47,21 @@ public class ManagerRacing : MonoBehaviour {
 		}
 	}
 
-    private event Action<float> callbackGameFinish;
-    public event Action<float> CallbackGameFinish
-    {
-        add
-        {
-            this.callbackGameFinish -= value;
-            this.callbackGameFinish += value;
-        }
-        remove
-        {
-            this.callbackGameFinish -= value;
-        }
-    }
+	private event Action<float> callbackGameFinish;
+	public event Action<float> CallbackGameFinish
+	{
+		add
+		{
+			this.callbackGameFinish -= value;
+			this.callbackGameFinish += value;
+		}
+		remove
+		{
+			this.callbackGameFinish -= value;
+		}
+	}
 
-    private event Action<int> callBackGameTimer;
+	private event Action<int> callBackGameTimer;
 	public event Action<int> CallBackGameTimer
 	{
 		add
@@ -98,21 +103,44 @@ public class ManagerRacing : MonoBehaviour {
 		}
 	}
 
-    private event Action<float> callbackTokenScore;
-    public event Action<float> CallbackTokenScore
-    {
-        add
-        {
-            this.callbackTokenScore -= value;
-            this.callbackTokenScore += value;
-        }
-        remove
-        {
-            this.callbackTokenScore -= value;
-        }
-    }
+	private event Action<float> callbackTokenScore;
+	public event Action<float> CallbackTokenScore
+	{
+		add
+		{
+			this.callbackTokenScore -= value;
+			this.callbackTokenScore += value;
+		}
+		remove
+		{
+			this.callbackTokenScore -= value;
+		}
+	}
 
-    public float TotalScore
+	private void Start()
+	{
+		StartCoroutine(delay());
+	}
+
+	IEnumerator delay()
+	{
+		yield return new WaitForSeconds(3);
+		CarCode = WebBridger.CarCode;
+		var popupPointCode = WebBridger.PointStatus;
+		if (popupPointCode < 1)
+		{
+			IsPopupPointOpen = false;
+		}
+		else
+		{
+			IsPopupPointOpen = true;
+		}
+
+		Debug.Log("Car Code: " + CarCode);
+		Debug.Log("Popup Point: " + IsPopupPointOpen);
+	}
+
+	public float TotalScore
 	{
 		get
 		{

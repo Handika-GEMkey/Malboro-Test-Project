@@ -59,7 +59,7 @@ Material:
     - _Amount: -6.95
     - _BumpScale: 1
     - _Cols: 24.23
-    - _Curvature: 0.0002
+    - _Curvature: 0.0005
     - _Curvature1: -0.05
     - _Curvature2: -10.89
     - _Cutoff: 0.5
