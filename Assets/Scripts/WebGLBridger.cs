@@ -17,6 +17,7 @@ public class WebGLBridger : MonoBehaviour
 
     public int CarCode;
     public int PointStatus;
+    public int TutorialKey;
 
     public void SubmitScore(int score)
     {
@@ -47,5 +48,15 @@ public class WebGLBridger : MonoBehaviour
     public void SetCar(int carCode)
     {
         CarCode = carCode;
+    }
+
+    public void SetTutorial(int tutorialKey)
+    {
+        TutorialKey = tutorialKey;
+    }
+
+    public void ResetPlayerPref()
+    {
+        PlayerPrefs.SetInt("controller_tutorial", 0);
     }
 }

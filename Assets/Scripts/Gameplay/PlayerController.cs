@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Texture[] carTexture0;
     [SerializeField] private Texture[] carTexture1;
 
-
     private bool oneTimeMove;
     private bool oneTimeShoot;
     private bool onTheMove;
@@ -24,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool carHasInitiated;
     private int indexPosition = 1;
     private int carCode = 0;
+
     void Start()
     {
         // movementPositions = movementPositions;

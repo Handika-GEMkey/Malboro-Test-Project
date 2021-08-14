@@ -27,6 +27,7 @@ public class GameplayGUI : MonoBehaviour {
 	public GameObject GameStartedUp;
 	public GameObject GameplayGUIGameObject;
 	public GameObject CountDownGameObject;
+	public GameObject BlockingUI;
 	public Text CountDownText;
 
 	public AudioHandler audioHandler;
@@ -71,6 +72,11 @@ public class GameplayGUI : MonoBehaviour {
 		managerRacing.CallbackPlayerScore += OnPlayerScore;
         //StartGameplay();
 
+    }
+
+    public void InitTutorial(int newKey)
+    {
+        isUsingKeyboard = newKey;
     }
 
 	public void InitScore(float Point)
@@ -150,7 +156,6 @@ public class GameplayGUI : MonoBehaviour {
 	{
 		StartCoroutine(CountDownCoroutine());
         WebGLBridger.Play();
-
     }
 
 	public IEnumerator CountDownCoroutine()
@@ -264,8 +269,9 @@ public class GameplayGUI : MonoBehaviour {
     {
         //see if tutorial should be on or off
         //caraliatnya masih punay tutorial atau enggk harusnya based on point=false (tutorialon) point=true(tutorialoff)
-        noTutorial = managerRacing.IsPopupPointOpen;
-        if (!noTutorial)
+        int tutorial = PlayerPrefs.GetInt("controller_tutorial", 0);
+        Debug.Log("TUTORIAL BEFORE: " + tutorial);
+        if (tutorial == 0)
         {
             TutorialParent.SetActive(true);
             //see if game played on keyboard or swipe
@@ -278,6 +284,9 @@ public class GameplayGUI : MonoBehaviour {
                     TutorialKeyboardObj.SetActive(true);
                     break;
             }
+            PlayerPrefs.SetInt("controller_tutorial", 1);
+
+            Debug.Log("TUTORIAL AFTER: " + PlayerPrefs.GetInt("controller_tutorial", 0));
         }
         else
         {

@@ -9,6 +9,8 @@ public class ManagerRacing : MonoBehaviour
 
     public static ManagerRacing Instance;
 
+    [SerializeField] private GameplayGUI gameplayGUI;
+
     [SerializeField]
     private WebGLBridger WebBridger;
     public bool GameStarted;
@@ -16,6 +18,7 @@ public class ManagerRacing : MonoBehaviour
 
     public int CarCode;
     public bool IsPopupPointOpen;
+
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Vector3[] linePositions;
 
@@ -137,23 +140,22 @@ public class ManagerRacing : MonoBehaviour
 
     IEnumerator delay()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         CarCode = WebBridger.CarCode;
         var popupPointCode = WebBridger.PointStatus;
-        if (popupPointCode < 1)
-        {
-            IsPopupPointOpen = false;
-        }
-        else
-        {
-            IsPopupPointOpen = true;
-        }
+        var tutorialKey = WebBridger.TutorialKey;
 
-        Debug.Log("Car Code: " + CarCode);
-        Debug.Log("Popup Point: " + IsPopupPointOpen);
+        if (popupPointCode < 1) IsPopupPointOpen = false;
+        else IsPopupPointOpen = true;
+
+        Debug.Log("Car: " + CarCode);
+        Debug.Log("Popup: " + IsPopupPointOpen);
+        Debug.Log("Controller Tutorial: " + tutorialKey);
 
         //initiate car
         playerController.InitiateCar(CarCode);
+        gameplayGUI.InitTutorial(tutorialKey);
+        gameplayGUI.BlockingUI.SetActive(false);
     }
 
     public float TotalScore
