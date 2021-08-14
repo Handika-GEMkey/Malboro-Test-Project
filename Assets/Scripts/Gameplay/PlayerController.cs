@@ -13,17 +13,21 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Vector3[] movementPositions;
     [SerializeField] private Material[] carGraphics;
+    [SerializeField] private Texture[] carTexture0;
+    [SerializeField] private Texture[] carTexture1;
+
 
     private bool oneTimeMove;
     private bool oneTimeShoot;
     private bool onTheMove;
     private Vector3 targetPos;
-
+    private bool carHasInitiated;
     private int indexPosition = 1;
-
+    private int carCode = 0;
     void Start()
     {
         // movementPositions = movementPositions;
+
         this.transform.position = movementPositions[indexPosition];
     }
 
@@ -31,6 +35,13 @@ public class PlayerController : MonoBehaviour
     {
         if (ManagerRacing.Instance.GameStarted)
         {
+            ////see if car has been initiated
+            //if (!carHasInitiated)
+            //{
+            //    InitiateCar();
+            //}
+
+            //navigation
             if ((Input.GetMouseButton(0)))
             {
                 if (!oneTimeMove)
@@ -79,7 +90,7 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if ((Input.GetKeyDown(KeyCode.A))|| (Input.GetKeyDown("left")))
+            if ((Input.GetKeyDown(KeyCode.A)) || (Input.GetKeyDown("left")))
             {
                 if (indexPosition > 0)
                 {
@@ -90,7 +101,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if ((Input.GetKeyDown(KeyCode.D))|| (Input.GetKeyDown("right")))
+            if ((Input.GetKeyDown(KeyCode.D)) || (Input.GetKeyDown("right")))
             {
                 //Debug.Log("Kanan:" + indexPosition.ToString());
                 if (indexPosition < 2)
@@ -102,9 +113,32 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-           // Debug.Log(targetPos.ToString() + ":" + indexPosition.ToString());
+            // Debug.Log(targetPos.ToString() + ":" + indexPosition.ToString());
             OnPlayerMove(targetPos, indexPosition);
         }
+    }
+
+    public void InitiateCar(int code)
+    {
+        carCode = code;
+        switch (carCode)
+        {
+            case 0:
+                for (int i = 0; i < carGraphics.Length; i++)
+                {
+                    carGraphics[i].SetTexture("_MainTex", carTexture0[i]);
+                }
+
+                break;
+            case 1:
+                for (int i = 0; i < carGraphics.Length; i++)
+                {
+                    carGraphics[i].SetTexture("_MainTex", carTexture1[i]);
+                }
+
+                break;
+        }
+
     }
 
     private void OnPlayerMove(Vector3 TargetPosition, int indexPos)

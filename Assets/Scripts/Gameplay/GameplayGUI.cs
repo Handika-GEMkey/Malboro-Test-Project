@@ -22,10 +22,7 @@ public class GameplayGUI : MonoBehaviour {
     public Image Life1ImageBg;
     public Image Life2ImageBg;
     public Image Life3ImageBg;
-
-
-    public Sprite LifeFillSprite;
-	public Sprite LifeNullSprite;
+    
 
 	public GameObject GameStartedUp;
 	public GameObject GameplayGUIGameObject;
@@ -34,30 +31,39 @@ public class GameplayGUI : MonoBehaviour {
 
 	public AudioHandler audioHandler;
 
-    [Header("Game Timer Result")]
+    [Header("Game Timer")]
     public Image TimerBarOutline;
     public GameObject TimeBarMark;
     private float TimeBarMarkPos;
 
 
     [Header("Game Finish Result")]
-	public GameObject GameFinishUI;
-	public Text NameText;
+	public GameObject GameFinishUI1st;
+    public GameObject GameFinishUIAll;
+    public Text NameText;
 	public Text FinalScoreText;
 	public Text CoinText;
 
-    [Header("Game Over Result")]
-    public GameObject GameOverUI;
+    [Header("Game Over Timer Result")]
+    public GameObject GameOverUITImer;
     public Text NameGOText;
     public Text FinalScoreGOText;
     public Text CoinGOText;
-
+    [Header("Game Over Life Result")]
+    public GameObject GameOverUILife;
+    [Header("Tutorial Sections")]
+    public GameObject TutorialKeyboardObj;
+    public GameObject TutorialSwipeObj;
+    public GameObject TutorialParent;
+    [SerializeField] private int isUsingKeyboard = 0; //0=swipe 1=keyboard
+    [SerializeField] private bool noTutorial ;//true = tutorialon , false = tutorialoff
     public RetreavingData RetreavingData;
     public WebGLBridger WebGLBridger;
 
     void Start()
 	{
-		managerRacing.CallbackGameOver += OnGameOver;
+		managerRacing.CallbackGameOverLife += OnGameOverLife;
+        managerRacing.CallbackGameOverTime += OnGameOverTime;
         managerRacing.CallbackGameFinish += OnGameFinish;
         managerRacing.CallbackTokenScore += OnPlayerToken;
         managerRacing.CallBackGameTimer += OnGameTimer;
@@ -86,8 +92,7 @@ public class GameplayGUI : MonoBehaviour {
        
         TimerBarOutline.fillAmount = timeBarCount;
         TimeBarMarkPos = 455f - (891f *(1- timeBarCount));
-        //Debug.Log(1-timeBarCount);
-        //Debug.Log(891f * timeBarCount);
+        
         TimeBarMark.transform.localPosition = new Vector3(TimeBarMarkPos, TimeBarMark.transform.localPosition.y, TimeBarMark.transform.localPosition.z);
     }
 
@@ -96,42 +101,18 @@ public class GameplayGUI : MonoBehaviour {
 		switch (life)
 		{
 			case 0:
-				//Life1Image.sprite = LifeNullSprite;
-				//Life2Image.sprite = LifeNullSprite;
-				//Life3Image.sprite = LifeNullSprite;
-                Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 1f;
+				
                 Life1Image.gameObject.SetActive(false);
                 Life2Image.gameObject.SetActive(false);
                 Life3Image.gameObject.SetActive(false);
                 Life1ImageBg.gameObject.SetActive(true);
                 Life2ImageBg.gameObject.SetActive(true);
                 Life3ImageBg.gameObject.SetActive(true);
+
                 LivesText.text = "0";
                 break;
 			case 1:
-				//Life1Image.sprite = LifeFillSprite;
-				//Life2Image.sprite = LifeNullSprite;
-				//Life3Image.sprite = LifeNullSprite;
-                Life1Image.fillAmount = 0.5f;
-                Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 1f;
-                Life1Image.gameObject.SetActive(true);
-                Life2Image.gameObject.SetActive(false);
-                Life3Image.gameObject.SetActive(false);
-                Life1ImageBg.gameObject.SetActive(true);
-                Life2ImageBg.gameObject.SetActive(true);
-                Life3ImageBg.gameObject.SetActive(true);
-                
-                break;
-			case 2:
-				//Life1Image.sprite = LifeFillSprite;
-				//Life2Image.sprite = LifeNullSprite;
-				//Life3Image.sprite = LifeNullSprite;
-                Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 1f;
+
                 Life1Image.gameObject.SetActive(true);
                 Life2Image.gameObject.SetActive(false);
                 Life3Image.gameObject.SetActive(false);
@@ -140,27 +121,9 @@ public class GameplayGUI : MonoBehaviour {
                 Life3ImageBg.gameObject.SetActive(true);
                 LivesText.text = "1";
                 break;
-			case 3:
-				//Life1Image.sprite = LifeFillSprite;
-				//Life2Image.sprite = LifeFillSprite;
-                //Life3Image.sprite = LifeNullSprite;
-                Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 0.688f;
-                Life3Image.fillAmount = 1f;
-                Life1Image.gameObject.SetActive(true);
-                Life2Image.gameObject.SetActive(true);
-                Life3Image.gameObject.SetActive(false);
-                Life1ImageBg.gameObject.SetActive(false);
-                Life2ImageBg.gameObject.SetActive(true);
-                Life3ImageBg.gameObject.SetActive(true);
-                break;
-            case 4:
-                //Life1Image.sprite = LifeFillSprite;
-                //Life2Image.sprite = LifeFillSprite;
-                //Life3Image.sprite = LifeNullSprite;
-                Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 1f;
+			case 2:
+				
+              
                 Life1Image.gameObject.SetActive(true);
                 Life2Image.gameObject.SetActive(true);
                 Life3Image.gameObject.SetActive(false);
@@ -169,27 +132,7 @@ public class GameplayGUI : MonoBehaviour {
                 Life3ImageBg.gameObject.SetActive(true);
                 LivesText.text = "2";
                 break;
-            case 5:
-                //Life1Image.sprite = LifeFillSprite;
-                //Life2Image.sprite = LifeFillSprite;
-                //Life3Image.sprite = LifeFillSprite;
-                Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 0.36f;
-                Life1Image.gameObject.SetActive(true);
-                Life2Image.gameObject.SetActive(true);
-                Life3Image.gameObject.SetActive(true);
-                Life1ImageBg.gameObject.SetActive(false);
-                Life2ImageBg.gameObject.SetActive(false);
-                Life3ImageBg.gameObject.SetActive(true);
-                break;
-            case 6:
-                //Life1Image.sprite = LifeFillSprite;
-                //Life2Image.sprite = LifeFillSprite;
-                //Life3Image.sprite = LifeFillSprite;
-                Life1Image.fillAmount = 1f;
-                Life2Image.fillAmount = 1f;
-                Life3Image.fillAmount = 1f;
+			case 3:
                 Life1Image.gameObject.SetActive(true);
                 Life2Image.gameObject.SetActive(true);
                 Life3Image.gameObject.SetActive(true);
@@ -197,7 +140,9 @@ public class GameplayGUI : MonoBehaviour {
                 Life2ImageBg.gameObject.SetActive(false);
                 Life3ImageBg.gameObject.SetActive(false);
                 LivesText.text = "3";
+
                 break;
+           
         }
 	}
 
@@ -228,28 +173,21 @@ public class GameplayGUI : MonoBehaviour {
 		CountDownText.fontSize = 160;
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(false);
-        //Debug.Log("starting");
+   
 		ManagerRacing.Instance.StartGame();
 		GameplayGUIGameObject.SetActive(true);
 		audioHandler.PlayCarSound();
-		//RetreavingData.GetData();
 	}
 
-	void OnGameOver(float totalScore)
+	void OnGameOverLife(float totalScore)
 	{
-		StartCoroutine(SkipTimer_GameOver(2f, totalScore));
-		/*Debug.Log("Game Over Indicated");
-		if (ManagerApplication.Instance && ManagerPlayer.Instance)
-		{
-
-			Debug.Log("Game Over Initiated");
-			StartCoroutine(SkipTimer(2f, totalScore));
-		}
-		else
-		{
-			Debug.Log("Game Over Error");
-		}*/
+		StartCoroutine(SkipTimer_GameOverLife(2f, totalScore));		
 	}
+
+    void OnGameOverTime(float totalScore)
+    {
+        StartCoroutine(SkipTimer_GameOverTime(2f, totalScore));       
+    }
 
     void OnGameFinish(float totalScore)
     {
@@ -262,28 +200,39 @@ public class GameplayGUI : MonoBehaviour {
 		managerRacing.RacingSpeed = 0;
 		managerRacing.GameStarted = false;
 		audioHandler.StopCarSound();
-		GameplayGUIGameObject.SetActive(false);
-		GameFinishUI.SetActive(true);
-		//NameText.text = RetreavingData.NAME;
-		//FinalScoreText.text = String.Format("{0:n0}", totalScore);
+        FinalScoreText.text = totalScore.ToString();
+        GameplayGUIGameObject.SetActive(false);
+        if (!managerRacing.IsPopupPointOpen)
+        {
+            GameFinishUI1st.SetActive(true);
+        }
+        else
+        {
+            GameFinishUIAll.SetActive(true);
+        }
+		
+		
 		yield return new WaitForSeconds(timer);
-		//RetreavingData.SCORE = (int) totalScore;
-		///RetreavingData.SendData();
 	}
 
 
-    IEnumerator SkipTimer_GameOver(float timer, float totalScore)
+    IEnumerator SkipTimer_GameOverLife(float timer, float totalScore)
     {
         managerRacing.RacingSpeed = 0;
         managerRacing.GameStarted = false;
         audioHandler.StopCarSound();
         GameplayGUIGameObject.SetActive(false);
-        GameOverUI.SetActive(true);
-        //NameText.text = RetreavingData.NAME;
-        // FinalScoreGOText.text = String.Format("{0:n0}", totalScore);
+        GameOverUILife.SetActive(true);
         yield return new WaitForSeconds(timer);
-        //RetreavingData.SCORE = (int) totalScore;
-        ///RetreavingData.SendData();
+    }
+    IEnumerator SkipTimer_GameOverTime(float timer, float totalScore)
+    {
+        managerRacing.RacingSpeed = 0;
+        managerRacing.GameStarted = false;
+        audioHandler.StopCarSound();
+        GameplayGUIGameObject.SetActive(false);
+        GameOverUITImer.SetActive(true);
+        yield return new WaitForSeconds(timer);
     }
 
     void OnGameTimer(int gameTimer)
@@ -309,5 +258,35 @@ public class GameplayGUI : MonoBehaviour {
     public void OnGameRestart()
     {
         Application.LoadLevel(Application.loadedLevel);
+    }
+
+    public void OnGamestart()
+    {
+        //see if tutorial should be on or off
+        //caraliatnya masih punay tutorial atau enggk harusnya based on point=false (tutorialon) point=true(tutorialoff)
+        noTutorial = managerRacing.IsPopupPointOpen;
+        if (!noTutorial)
+        {
+            TutorialParent.SetActive(true);
+            //see if game played on keyboard or swipe
+            switch (isUsingKeyboard)
+            {
+                case 0:
+                    TutorialSwipeObj.SetActive(true);
+                    break;
+                case 1:
+                    TutorialKeyboardObj.SetActive(true);
+                    break;
+            }
+        }
+        else
+        {
+            StartGameplay();
+        }
+
+    }
+    public void OnGameStartFromTutor()
+    {
+        StartGameplay();
     }
 }

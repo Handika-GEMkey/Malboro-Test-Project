@@ -6,6 +6,8 @@ using UnityEngine;
 public class RetreavingData : MonoBehaviour {
 
     public GameplayGUI gameplayGUI;
+   
+
     public bool isDebug;
 
     [DllImport("__Internal")]
@@ -48,8 +50,12 @@ public class RetreavingData : MonoBehaviour {
 #endif
     }
 
+
     public void StartTheGame()
     {
+       
+       
+
         gameplayGUI.StartGameplay();
     }
 
