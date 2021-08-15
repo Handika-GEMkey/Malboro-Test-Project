@@ -25,6 +25,7 @@ public class GameplayGUI : MonoBehaviour {
     
 
 	public GameObject GameStartedUp;
+    public GameObject IntroStartedup;
 	public GameObject GameplayGUIGameObject;
 	public GameObject CountDownGameObject;
 	public GameObject BlockingUI;
@@ -262,6 +263,8 @@ public class GameplayGUI : MonoBehaviour {
 
     public void OnGameRestart()
     {
+        PlayerPrefs.SetInt("startingguide", 1);
+       Debug.Log( PlayerPrefs.GetInt("startingguide"));
         Application.LoadLevel(Application.loadedLevel);
     }
 
@@ -285,17 +288,36 @@ public class GameplayGUI : MonoBehaviour {
                     break;
             }
             PlayerPrefs.SetInt("controller_tutorial", 1);
+            
 
             Debug.Log("TUTORIAL AFTER: " + PlayerPrefs.GetInt("controller_tutorial", 0));
         }
         else
         {
+           // PlayerPrefs.SetInt("startingguide", 1);
             StartGameplay();
         }
 
     }
+
+    public void OnGameStartGetTutorialKey()
+    {
+        Debug.Log("Start game game in " + PlayerPrefs.GetInt("startingguide"));
+        int startingguide = PlayerPrefs.GetInt("startingguide", 0);
+        Debug.Log("Start game game in " + startingguide);
+        if (startingguide == 1)
+        {
+            StartGameplay();
+            IntroStartedup.SetActive(false);
+        }
+        else
+            IntroStartedup.SetActive(true);
+
+    }
+
     public void OnGameStartFromTutor()
     {
+       // PlayerPrefs.SetInt("startingguide", 1);
         StartGameplay();
     }
 }

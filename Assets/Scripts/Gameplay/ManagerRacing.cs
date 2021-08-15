@@ -18,7 +18,7 @@ public class ManagerRacing : MonoBehaviour
 
     public int CarCode;
     public bool IsPopupPointOpen;
-
+    public bool InDebugMode;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Vector3[] linePositions;
 
@@ -33,6 +33,7 @@ public class ManagerRacing : MonoBehaviour
 
     [SerializeField] private int gameTimer;
     [SerializeField] private float maxToken;
+    [SerializeField] private int maxTimer;
     [SerializeField]
     [Range(10f, 20f)]
     private int obsDistance;
@@ -135,9 +136,23 @@ public class ManagerRacing : MonoBehaviour
 
     private void Start()
     {
+        //testingpurpose
+        if (InDebugMode)
+        {
+            PlayerPrefs.SetInt("startingguide", 0);
+            PlayerPrefs.SetInt("controller_tutorial", 0);
+        }
+        PrepareStartingGameUI();
         StartCoroutine(delay());
+       
+
     }
 
+    void PrepareStartingGameUI()
+    {
+        gameplayGUI.OnGameStartGetTutorialKey();
+    }
+   
     IEnumerator delay()
     {
         yield return new WaitForSeconds(2);
@@ -156,6 +171,9 @@ public class ManagerRacing : MonoBehaviour
         playerController.InitiateCar(CarCode);
         gameplayGUI.InitTutorial(tutorialKey);
         gameplayGUI.BlockingUI.SetActive(false);
+        
+        //Lookout for tutorial if its on or off
+        
     }
 
     public float TotalScore
@@ -171,7 +189,7 @@ public class ManagerRacing : MonoBehaviour
             if (totalScore % 100 == 0 && racingSpeed < 1f)
             {
                 racingSpeed += 0.02f;
-                Debug.Log(racingSpeed.ToString());
+                //Debug.Log(racingSpeed.ToString());
             }
         }
     }
@@ -269,10 +287,16 @@ public class ManagerRacing : MonoBehaviour
     public void AddingTime(int v)
     {
         gameTimer += v;
-        if (gameTimer > 60) { gameTimer = 60; }
+        if (gameTimer > maxTimer) { gameTimer = maxTimer; }
         if (callBackGameTimer != null)
         {
             callBackGameTimer.Invoke(gameTimer);
         }
+    }
+
+    public void ExitGame()
+    {
+        PlayerPrefs.SetInt("startingguide", 0);
+        WebBridger.Exit();
     }
 }
