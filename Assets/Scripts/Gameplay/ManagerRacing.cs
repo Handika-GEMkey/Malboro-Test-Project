@@ -142,10 +142,12 @@ public class ManagerRacing : MonoBehaviour
             PlayerPrefs.SetInt("startingguide", 0);
             PlayerPrefs.SetInt("controller_tutorial", 0);
         }
-        PrepareStartingGameUI();
-        StartCoroutine(delay());
-       
+        InitGame();
+    }
 
+    public void InitGame()
+    {
+        StartCoroutine(delay());
     }
 
     void PrepareStartingGameUI()
@@ -156,6 +158,7 @@ public class ManagerRacing : MonoBehaviour
     IEnumerator delay()
     {
         yield return new WaitForSeconds(2);
+
         CarCode = WebBridger.CarCode;
         var popupPointCode = WebBridger.PointStatus;
         var tutorialKey = WebBridger.TutorialKey;
@@ -163,17 +166,11 @@ public class ManagerRacing : MonoBehaviour
         if (popupPointCode < 1) IsPopupPointOpen = false;
         else IsPopupPointOpen = true;
 
-        Debug.Log("Car: " + CarCode);
-        Debug.Log("Popup: " + IsPopupPointOpen);
-        Debug.Log("Controller Tutorial: " + tutorialKey);
-
-        //initiate car
         playerController.InitiateCar(CarCode);
         gameplayGUI.InitTutorial(tutorialKey);
         gameplayGUI.BlockingUI.SetActive(false);
-        
-        //Lookout for tutorial if its on or off
-        
+
+        PrepareStartingGameUI();
     }
 
     public float TotalScore
@@ -189,7 +186,6 @@ public class ManagerRacing : MonoBehaviour
             if (totalScore % 100 == 0 && racingSpeed < 1f)
             {
                 racingSpeed += 0.02f;
-                //Debug.Log(racingSpeed.ToString());
             }
         }
     }
@@ -294,9 +290,9 @@ public class ManagerRacing : MonoBehaviour
         }
     }
 
-    public void ExitGame()
+    /*public void ExitGame()
     {
         PlayerPrefs.SetInt("startingguide", 0);
         WebBridger.Exit();
-    }
+    }*/
 }

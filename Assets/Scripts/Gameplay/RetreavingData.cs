@@ -53,9 +53,6 @@ public class RetreavingData : MonoBehaviour {
 
     public void StartTheGame()
     {
-       
-       
-
         gameplayGUI.StartGameplay();
     }
 
@@ -64,5 +61,10 @@ public class RetreavingData : MonoBehaviour {
 #if UNITY_WEBGL
    //     SendData(ID, NAME, SCORE);
 #endif
+    }
+
+    public void SetPoint()
+    {
+
     }
 }

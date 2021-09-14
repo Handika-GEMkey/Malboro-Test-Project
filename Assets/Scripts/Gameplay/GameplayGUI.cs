@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameplayGUI : MonoBehaviour {
 
@@ -64,7 +65,7 @@ public class GameplayGUI : MonoBehaviour {
 
     void Start()
 	{
-		managerRacing.CallbackGameOverLife += OnGameOverLife;
+        managerRacing.CallbackGameOverLife += OnGameOverLife;
         managerRacing.CallbackGameOverTime += OnGameOverTime;
         managerRacing.CallbackGameFinish += OnGameFinish;
         managerRacing.CallbackTokenScore += OnPlayerToken;
@@ -156,7 +157,6 @@ public class GameplayGUI : MonoBehaviour {
 	public void StartGameplay()
 	{
 		StartCoroutine(CountDownCoroutine());
-        WebGLBridger.Play();
     }
 
 	public IEnumerator CountDownCoroutine()
@@ -180,9 +180,9 @@ public class GameplayGUI : MonoBehaviour {
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(false);
    
-		ManagerRacing.Instance.StartGame();
 		GameplayGUIGameObject.SetActive(true);
 		audioHandler.PlayCarSound();
+		ManagerRacing.Instance.StartGame();
 	}
 
 	void OnGameOverLife(float totalScore)
@@ -208,6 +208,7 @@ public class GameplayGUI : MonoBehaviour {
 		audioHandler.StopCarSound();
         FinalScoreText.text = totalScore.ToString();
         GameplayGUIGameObject.SetActive(false);
+
         if (!managerRacing.IsPopupPointOpen)
         {
             GameFinishUI1st.SetActive(true);
@@ -216,7 +217,8 @@ public class GameplayGUI : MonoBehaviour {
         {
             GameFinishUIAll.SetActive(true);
         }
-		
+
+        WebGLBridger.SubmitScore(200);
 		
 		yield return new WaitForSeconds(timer);
 	}
@@ -263,17 +265,13 @@ public class GameplayGUI : MonoBehaviour {
 
     public void OnGameRestart()
     {
-        PlayerPrefs.SetInt("startingguide", 1);
-       Debug.Log( PlayerPrefs.GetInt("startingguide"));
-        Application.LoadLevel(Application.loadedLevel);
+        managerRacing.InitGame();
+        SceneManager.LoadScene("Game");
     }
 
     public void OnGamestart()
     {
-        //see if tutorial should be on or off
-        //caraliatnya masih punay tutorial atau enggk harusnya based on point=false (tutorialon) point=true(tutorialoff)
         int tutorial = PlayerPrefs.GetInt("controller_tutorial", 0);
-        Debug.Log("TUTORIAL BEFORE: " + tutorial);
         if (tutorial == 0)
         {
             TutorialParent.SetActive(true);
@@ -288,9 +286,6 @@ public class GameplayGUI : MonoBehaviour {
                     break;
             }
             PlayerPrefs.SetInt("controller_tutorial", 1);
-            
-
-            Debug.Log("TUTORIAL AFTER: " + PlayerPrefs.GetInt("controller_tutorial", 0));
         }
         else
         {
@@ -302,16 +297,17 @@ public class GameplayGUI : MonoBehaviour {
 
     public void OnGameStartGetTutorialKey()
     {
-        Debug.Log("Start game game in " + PlayerPrefs.GetInt("startingguide"));
         int startingguide = PlayerPrefs.GetInt("startingguide", 0);
-        Debug.Log("Start game game in " + startingguide);
         if (startingguide == 1)
         {
             StartGameplay();
             IntroStartedup.SetActive(false);
         }
         else
+        {
+            PlayerPrefs.SetInt("startingguide", 1);
             IntroStartedup.SetActive(true);
+        }
 
     }
 

@@ -3,11 +3,31 @@ mergeInto(LibraryManager.library, {
 		submitScore(score);
 	},
 
-	OnExit: function () {
+	OnPlay: function () {
+		play();
+	},
+
+	OnGameQuit1: function () {
 		exit();
 	},
 
-	OnPlay: function () {
-		play();
+	OnGameQuit2: function () {
+		gameQuit1();
+	},
+
+	OnGameQuit3: function () {
+		gameQuit2();
+	},
+	
+	OnGameStart: function () {
+		gameStart();
+	},
+
+	OnPlayAgain: function () {
+		playAgain();
+	},
+
+	OnShare: function () {
+		share();
 	},
 });
