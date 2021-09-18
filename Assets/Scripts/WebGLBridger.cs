@@ -10,13 +10,38 @@ public class WebGLBridger : MonoBehaviour
     private static extern void OnSubmitScore(int score);
 
     [DllImport("__Internal")]
-    private static extern void OnExit();
+    private static extern void OnGameQuit1();
+
+    [DllImport("__Internal")]
+    private static extern void OnGameQuit2();
+
+    [DllImport("__Internal")]
+    private static extern void OnGameQuit3();
 
     [DllImport("__Internal")]
     private static extern void OnPlay();
 
+    [DllImport("__Internal")]
+    private static extern void OnGameStart();
+
+    [DllImport("__Internal")]
+    private static extern void OnPlayAgain();
+
+    [DllImport("__Internal")]
+    private static extern void OnShare();
+
+    public bool isDebugging = false;
     public int CarCode;
     public int PointStatus;
+
+    private void OnEnable()
+    {
+        if (isDebugging)
+        {
+            ResetPlayerPref();
+        }
+        GameStart();
+    }
 
     public void SubmitScore(int score)
     {
@@ -25,10 +50,24 @@ public class WebGLBridger : MonoBehaviour
 #endif
     }
 
-    public void Exit()
+    public void GameQuit1()
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
-    OnExit();
+    OnGameQuit1();
+#endif
+    }
+
+    public void GameQuit2()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+    OnGameQuit2();
+#endif
+    }
+
+    public void GameQuit3()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+    OnGameQuit3();
 #endif
     }
 
@@ -48,4 +87,39 @@ public class WebGLBridger : MonoBehaviour
     {
         CarCode = carCode;
     }
+<<<<<<< Updated upstream
+=======
+
+    public void SetTutorial(int tutorialKey)
+    {
+        TutorialKey = tutorialKey;
+    }
+
+    public void ResetPlayerPref()
+    {
+        PlayerPrefs.SetInt("controller_tutorial", 0);
+        PlayerPrefs.SetInt("startingguide", 0);
+    }
+
+    public void GameStart()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+    OnGameStart();
+#endif
+    }
+
+    public void PlayAgain()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+    OnPlayAgain();
+#endif
+    }
+
+    public void Share()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+    OnShare();
+#endif
+    }
+>>>>>>> Stashed changes
 }

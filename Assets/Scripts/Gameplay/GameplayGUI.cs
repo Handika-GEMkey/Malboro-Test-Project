@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameplayGUI : MonoBehaviour {
 
@@ -54,6 +55,10 @@ public class GameplayGUI : MonoBehaviour {
 
     public RetreavingData RetreavingData;
     public WebGLBridger WebGLBridger;
+    public Animator CamAnimator;
+    public Animator UIAnimator;
+    public Animator UIHTPAnimator;
+    public GameObject UIHTPObj;
 
     void Start()
 	{
@@ -204,13 +209,17 @@ public class GameplayGUI : MonoBehaviour {
 	public void StartGameplay()
 	{
 		StartCoroutine(CountDownCoroutine());
+<<<<<<< Updated upstream
         WebGLBridger.Play();
 
+=======
+>>>>>>> Stashed changes
     }
 
 	public IEnumerator CountDownCoroutine()
 	{
-		GameStartedUp.SetActive(false);
+        CamAnimator.Play("BeginAnimation", 0, 0);
+        GameStartedUp.SetActive(false);
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(true);
 		audioHandler.PlaySFXCounter();
@@ -228,12 +237,23 @@ public class GameplayGUI : MonoBehaviour {
 		CountDownText.fontSize = 160;
 		yield return new WaitForSeconds(1);
 		CountDownGameObject.SetActive(false);
+<<<<<<< Updated upstream
         //Debug.Log("starting");
 		ManagerRacing.Instance.StartGame();
+=======
+   
+		
+>>>>>>> Stashed changes
 		GameplayGUIGameObject.SetActive(true);
+        UIAnimator.Play("OpenUIAnimation", 0, 0);
 		audioHandler.PlayCarSound();
+<<<<<<< Updated upstream
 		//RetreavingData.GetData();
 	}
+=======
+        ManagerRacing.Instance.StartGame();
+    }
+>>>>>>> Stashed changes
 
 	void OnGameOver(float totalScore)
 	{
@@ -262,6 +282,7 @@ public class GameplayGUI : MonoBehaviour {
 		managerRacing.RacingSpeed = 0;
 		managerRacing.GameStarted = false;
 		audioHandler.StopCarSound();
+<<<<<<< Updated upstream
 		GameplayGUIGameObject.SetActive(false);
 		GameFinishUI.SetActive(true);
 		//NameText.text = RetreavingData.NAME;
@@ -269,6 +290,21 @@ public class GameplayGUI : MonoBehaviour {
 		yield return new WaitForSeconds(timer);
 		//RetreavingData.SCORE = (int) totalScore;
 		///RetreavingData.SendData();
+=======
+        FinalScoreText.text = totalScore.ToString();
+        GameplayGUIGameObject.SetActive(false);
+        if (!managerRacing.IsPopupPointOpen)
+        {
+            GameFinishUI1st.SetActive(true);
+        }
+        else
+        {
+            GameFinishUIAll.SetActive(true);
+        }
+
+        WebGLBridger.SubmitScore(200);
+        yield return new WaitForSeconds(timer);
+>>>>>>> Stashed changes
 	}
 
 
@@ -308,6 +344,66 @@ public class GameplayGUI : MonoBehaviour {
 
     public void OnGameRestart()
     {
+<<<<<<< Updated upstream
         Application.LoadLevel(Application.loadedLevel);
     }
+=======
+        managerRacing.InitGame();
+        SceneManager.LoadScene("Game");
+    }
+
+    public void OnGamestart()
+    {
+        UIHTPAnimator.Play("GameStartClose", 0, 0);
+    }
+    IEnumerator StartAnimationDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        UIHTPObj.SetActive(false);
+        int tutorial = PlayerPrefs.GetInt("controller_tutorial", 0);
+        Debug.Log("TUTORIAL BEFORE: " + tutorial);
+        if (tutorial == 0)
+        {
+            TutorialParent.SetActive(true);
+            //see if game played on keyboard or swipe
+            switch (isUsingKeyboard)
+            {
+                case 0:
+                    TutorialSwipeObj.SetActive(true);
+                    break;
+                case 1:
+                    TutorialKeyboardObj.SetActive(true);
+                    break;
+            }
+            PlayerPrefs.SetInt("controller_tutorial", 1);
+        }
+        else
+        {
+          
+            StartGameplay();
+        }
+    }
+
+    public void OnGameStartGetTutorialKey()
+    {
+        int startingguide = PlayerPrefs.GetInt("startingguide", 0);
+
+        if (startingguide == 1)
+        {
+            StartGameplay();
+            IntroStartedup.SetActive(false);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("startingguide", 1);
+            IntroStartedup.SetActive(true);
+        }
+    }
+
+    public void OnGameStartFromTutor()
+    {
+       // PlayerPrefs.SetInt("startingguide", 1);
+        StartGameplay();
+    }
+>>>>>>> Stashed changes
 }

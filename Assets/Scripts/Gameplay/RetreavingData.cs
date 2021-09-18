@@ -59,4 +59,9 @@ public class RetreavingData : MonoBehaviour {
    //     SendData(ID, NAME, SCORE);
 #endif
     }
+
+    public void SetPoint()
+    {
+
+    }
 }

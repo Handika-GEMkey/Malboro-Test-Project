@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RoadMaterial
-  m_Shader: {fileID: 4800000, guid: 24caf58b91faf804d8adfd3306e06ef3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 46ecb45dc79ed7f4282c0022a3a7b962, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1fdb8dc9fae79834e9afa09419f4ee7d, type: 3}
+        m_Texture: {fileID: 2800000, guid: a807161223cd714479e84c2afc538403, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -59,7 +59,7 @@ Material:
     - _Amount: -6.95
     - _BumpScale: 1
     - _Cols: 24.23
-    - _Curvature: 0.00005
+    - _Curvature: 0.0005
     - _Curvature1: -0.05
     - _Curvature2: -10.89
     - _Cutoff: 0.5

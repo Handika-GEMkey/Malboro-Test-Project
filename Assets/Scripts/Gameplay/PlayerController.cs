@@ -86,23 +86,26 @@ public class PlayerController : MonoBehaviour
                     indexPosition -= 1;
                     targetPos = movementPositions[indexPosition];
                     onTheMove = true;
-                    //Debug.Log("Kiri:" + indexPosition.ToString());
+                   
                 }
             }
 
             if ((Input.GetKeyDown(KeyCode.D))|| (Input.GetKeyDown("right")))
             {
-                //Debug.Log("Kanan:" + indexPosition.ToString());
+
                 if (indexPosition < 2)
                 {
                     indexPosition += 1;
                     targetPos = movementPositions[indexPosition];
                     onTheMove = true;
-                    //Debug.Log("Kanan:" + indexPosition.ToString());
+
                 }
             }
+<<<<<<< Updated upstream
 
            // Debug.Log(targetPos.ToString() + ":" + indexPosition.ToString());
+=======
+>>>>>>> Stashed changes
             OnPlayerMove(targetPos, indexPosition);
         }
     }

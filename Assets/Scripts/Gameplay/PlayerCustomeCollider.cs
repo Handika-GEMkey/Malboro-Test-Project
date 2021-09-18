@@ -10,6 +10,7 @@ public class PlayerCustomeCollider : MonoBehaviour
 
     public Animator CarAnimator;
     public AudioHandler AudioHandler;
+    public Animator CameraAnimator;
 
     void Update()
     {
@@ -29,6 +30,7 @@ public class PlayerCustomeCollider : MonoBehaviour
             {
                 hit.transform.gameObject.SetActive(false);
                 CarAnimator.Play("Damaged", 0, 0);
+                CameraAnimator.Play("HittedAnimation", 0, 0);
                 ManagerRacing.Instance.TotalLife -= 1;
                 AudioHandler.PlaySFXCollision();
             }
